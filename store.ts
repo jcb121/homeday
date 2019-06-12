@@ -4,7 +4,7 @@ export interface IStoreState {
   firstName: string
   lastName: string
   gitUserName: string
-  profile: false | IProfile
+  profile: boolean | IProfile
   agreed: boolean
 }
 
@@ -22,17 +22,18 @@ export const actionTypes = {
   SET_GIT_USERNAME: 'SET_GIT_USERNAME',
   SET_PROFILE: 'SET_PROFILE',
   SET_AGREED: 'SET_AGREED',
+  CLEAR_DATA: 'CLEAR_DATA'
 }
 
-interface IAction {
+type IAction = {
   type: 'SET_FIRST_NAME' | 'SET_LAST_NAME' | 'SET_GIT_USERNAME',
   payload: string
-}
-interface IAgreedPayload {
+} | {
+  type: 'CLEAR_DATA'
+} | {
   type: 'SET_AGREED',
   payload: boolean
-}
-interface IProfilePayload {
+} | {
   type: 'SET_PROFILE',
   payload: IProfile
 }
@@ -48,7 +49,7 @@ export interface IProfile {
 }
 
 // create a simple reducer
-const reducer = (state = initialState, action: IAction | IProfilePayload | IAgreedPayload) => {
+const reducer = (state = initialState, action: IAction) => {
   switch (action.type) {
     case 'SET_FIRST_NAME':
       return { ...state, firstName: action.payload };
@@ -60,6 +61,8 @@ const reducer = (state = initialState, action: IAction | IProfilePayload | IAgre
       return { ...state, profile: action.payload };
     case 'SET_AGREED':
       return { ...state, agreed: action.payload };
+    case 'CLEAR_DATA':
+      return initialState
     default:
       return state
   }
@@ -69,6 +72,11 @@ export const setAgreed = (value: boolean) => {
   return {
     type: actionTypes.SET_AGREED,
     payload: value
+  }
+}
+export const clearData =() => {
+  return {
+    type: actionTypes.CLEAR_DATA,
   }
 }
 export const setProfile = (value: IProfile) => {
@@ -96,7 +104,7 @@ export const setGitUserName = (value: string) => {
   }
 }
 
-export function initializeStore(_initialState = initialState) {
+export function initializeStore(_initialState: IStoreState = initialState) {
   return createStore(
     reducer,
     _initialState,

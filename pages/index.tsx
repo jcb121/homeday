@@ -12,14 +12,11 @@ function Home() {
   const classes = useStyles();
 
   return (
-    <Page title="Welcome to the Form to end all forms" backButton={false}>
+    <Page title="Welcome to Github Profile viewer tool" backButton={false}>
       <Typography component="h1" variant="h5" align="center">
       </Typography>
       <Typography component="p" variant="body1">
-        this will ask for some info from you. <br/>
-        <small>
-          I promise that all data gathered will be used for evil
-        </small>
+        this form will ask you for some details regarding the profile you want to retreive
       </Typography>
       <Link href="/step2">
         <Button

@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from "react";
 import { makeStyles, Grid, Button } from "@material-ui/core";
 import Page from "../components/Page";
 import { connect } from "react-redux";
-import { IProfile, setProfile } from "../store";
+import { IProfile, setProfile, clearData } from "../store";
 import Router from "next/router";
 import Link from "next/link";
 
@@ -41,9 +41,10 @@ interface IProps {
   gitUserName: string
   profile: IProfile | false
   setProfile: (profile: IProfile) => void
+  clearData: () => void
 }
 
-function Home({ firstName, lastName, gitUserName, profile, setProfile }: IProps) {
+function Home({ firstName, lastName, gitUserName, profile, setProfile, clearData }: IProps) {
   const classes = useStyles();
 
   async function fetchUrl() {
@@ -53,7 +54,6 @@ function Home({ firstName, lastName, gitUserName, profile, setProfile }: IProps)
   }
 
   useEffect(() => {
-    console.warn('gitUserName', gitUserName)
     if (gitUserName === '') {
       Router.push(`/`)
       return;
@@ -80,7 +80,7 @@ function Home({ firstName, lastName, gitUserName, profile, setProfile }: IProps)
             <Fragment>
               <div className={classes.header}>
                 {profile.name && (
-                  <h2 className={classes.headerText}>{profile.name} - </h2>
+                  <h2 className={classes.headerText}>{profile.name} -&nbsp;</h2>
                 )}
                 <h3 className={classes.headerText}>{profile.login}</h3>
               </div>
@@ -107,6 +107,7 @@ function Home({ firstName, lastName, gitUserName, profile, setProfile }: IProps)
           )}
           <Link href="/">
             <Button
+              onClick={clearData}
               fullWidth
               color="primary"
               variant="contained"
@@ -124,5 +125,5 @@ function Home({ firstName, lastName, gitUserName, profile, setProfile }: IProps)
 
 export default connect(
   state => state,
-  { setProfile }
+  { setProfile, clearData }
 )(Home)

@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  value: {
+    fontWeight: 'bold',
+  }
 }));
 
 interface IProps {
@@ -35,20 +38,20 @@ function Home({ firstName, lastName, gitUserName, agreed, setAgreed }: IProps) {
   }, []);
 
   return (
-    <Page title="Welcome to step 3" backButton="/step2">
+    <Page title="Please Agree to the terms" backButton="/step2">
       <form onSubmit={handleSubmit}>
         <div>
           <p>
-            Your name: {firstName} {lastName}
+            The name: <span className={classes.value}>{firstName} {lastName}</span>
             <br />
-            Your Github username: {gitUserName}
+            The Github username: <span className={classes.value}>{gitUserName}</span>
           </p>
         </div>
         <Grid container>
           <Grid item xs={12}>
             <FormControlLabel
               control={<Checkbox required value="allowExtraEmails" color="primary" onChange={e => setAgreed(e.target.checked)} checked={agreed} />}
-              label="I agree with being processed and having my soul removed"
+              label="I agree with having this profile retreived"
             />
           </Grid>
         </Grid>
